@@ -87,7 +87,7 @@ const BookDetails = () => {
         book_id: id,
         title: book.title,
         author: authorName,
-        cover_id: book.cover_i,
+        cover_id: book.cover_i?.toString(),
         year: book.publish_date ? parseInt(book.publish_date.split(',').pop()?.trim() || '0') : undefined,
       })
       

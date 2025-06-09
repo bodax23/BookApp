@@ -146,7 +146,7 @@ const Home = () => {
         book_id: book.id,
         title: book.title,
         author: book.author_name?.[0] || 'Unknown Author',
-        cover_id: book.cover_i,
+        cover_id: book.cover_i?.toString(),
         year: book.first_publish_year,
       });
       

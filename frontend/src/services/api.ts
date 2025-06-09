@@ -561,6 +561,7 @@ export const readingListApi = {
     title: string;
     author: string;
     cover_id?: string;
+    year?: number;
   }) => {
     const response = await backendApi.post("/api/reading-list", book);
     return response.data;
@@ -655,7 +656,12 @@ export const addToReadingList = (bookData: {
   cover_id?: any;
   year?: number;
 }) => {
-  return readingListApi.addToReadingList(bookData);
+  // Ensure cover_id is a string
+  const formattedData = {
+    ...bookData,
+    cover_id: bookData.cover_id?.toString() || undefined
+  };
+  return readingListApi.addToReadingList(formattedData);
 };
 
 export const searchBooks = (params: any) => {
