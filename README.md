@@ -63,7 +63,7 @@ npm run dev
 
 3. **Access the application:**
    - Frontend: http://localhost:3000
-   - Backend API: http://localhost:9090
+   - Backend API: http://localhost:8000
 
 ## API Endpoints
 
@@ -100,7 +100,7 @@ docker-compose up --build
 
 2. Access the application:
    - Frontend: http://localhost:3000
-   - Backend API: http://localhost:9090
+   - Backend API: http://localhost:8000
 
 ### Stopping Services
 
