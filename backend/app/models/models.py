@@ -39,7 +39,7 @@ class ReadingListItem(Base):
     book_id = Column(String(255), nullable=False)  # Open Library ID
     title = Column(String(255), nullable=False)
     author = Column(String(255))
-    cover_id = Column(String(255))
+    cover_id = Column(String(255), nullable=True)  # Store as string to handle both string and integer IDs
     added_at = Column(DateTime, default=func.now())
     
     # Relationship

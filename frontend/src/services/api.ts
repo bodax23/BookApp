@@ -563,7 +563,12 @@ export const readingListApi = {
     cover_id?: string;
     year?: number;
   }) => {
-    const response = await backendApi.post("/api/reading-list", book);
+    // Ensure cover_id is a string
+    const formattedBook = {
+      ...book,
+      cover_id: book.cover_id ? String(book.cover_id) : undefined
+    };
+    const response = await backendApi.post("/api/reading-list", formattedBook);
     return response.data;
   },
 
@@ -656,10 +661,10 @@ export const addToReadingList = (bookData: {
   cover_id?: any;
   year?: number;
 }) => {
-  // Ensure cover_id is a string
+  // Ensure cover_id is a string and properly formatted
   const formattedData = {
     ...bookData,
-    cover_id: bookData.cover_id?.toString() || undefined
+    cover_id: bookData.cover_id ? String(bookData.cover_id) : undefined
   };
   return readingListApi.addToReadingList(formattedData);
 };

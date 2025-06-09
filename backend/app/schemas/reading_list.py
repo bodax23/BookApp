@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Optional, List
+from typing import Optional, List, Union
 
 from pydantic import BaseModel, Field
 
@@ -9,7 +9,7 @@ class ReadingListItemBase(BaseModel):
     book_id: str
     title: str
     author: Optional[str] = None
-    cover_id: Optional[str] = None
+    cover_id: Optional[Union[str, int]] = None
 
 
 # Create Reading List Item Schema
@@ -24,4 +24,4 @@ class ReadingListItemResponse(ReadingListItemBase):
     added_at: datetime
 
     class Config:
-        orm_mode = True 
+        from_attributes = True 
