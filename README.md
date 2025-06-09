@@ -41,7 +41,7 @@ A full-stack application for searching and managing your reading list.
 ### Prerequisites
 - Node.js and npm
 - Python 3.8 or higher
-- MySQL database
+
 
 ### Running the Application
 
