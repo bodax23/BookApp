@@ -5,7 +5,7 @@ from typing import Optional, List
 
 from ...core.config import settings
 from ...core.security import get_current_active_user
-from ...models.models import User
+from ...models.user import User
 
 router = APIRouter()
 logger = logging.getLogger(__name__)

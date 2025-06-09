@@ -14,10 +14,10 @@ class Settings(BaseSettings):
     ALGORITHM: str = "HS256"
     
     # Database settings
-    DB_HOST: str = os.getenv("DB_HOST", "localhost")
-    DB_USER: str = os.getenv("DB_USER", "root")
-    DB_PASSWORD: str = os.getenv("DB_PASSWORD", "password")
-    DB_NAME: str = os.getenv("DB_NAME", "reading_list")
+    DB_HOST: str = os.getenv("DB_HOST", "db")
+    DB_USER: str = os.getenv("DB_USER", "readinglist")
+    DB_PASSWORD: str = os.getenv("DB_PASSWORD", "readinglist")
+    DB_NAME: str = os.getenv("DB_NAME", "readinglist")
     DB_PORT: str = os.getenv("DB_PORT", "3306")
     DATABASE_URI: Optional[str] = None
     

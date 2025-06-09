@@ -3,7 +3,8 @@ from sqlalchemy.orm import Session
 from typing import List
 
 from ...db.database import get_db
-from ...models.models import User, ReadingListItem
+from ...models.user import User
+from ...models.reading_list import ReadingListItem
 from ...schemas.reading_list import ReadingListItemCreate, ReadingListItemResponse
 from ...core.security import get_current_active_user
 

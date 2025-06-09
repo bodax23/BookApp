@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session
 
 from app.core.config import settings
 from app.db.database import get_db
-from app.models.models import User
+from app.models.user import User
 from app.schemas.user import TokenData
 
 

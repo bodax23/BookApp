@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from datetime import timedelta
 
 from ...db.database import get_db
-from ...models.models import User
+from ...models.user import User
 from ...schemas.user import UserCreate, UserResponse, Token
 from ...core.security import create_access_token
 from ...core.config import settings

@@ -2,7 +2,6 @@ import logging
 import time
 from sqlalchemy.exc import OperationalError
 from sqlmodel import SQLModel, create_engine, Session
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 from app.core.config import settings
@@ -16,10 +15,6 @@ engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
 # Create SessionLocal class
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-# Create Base class
-Base = declarative_base()
-
 
 def create_db_and_tables():
     """Create the database tables from SQLModel models"""
