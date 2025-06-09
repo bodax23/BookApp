@@ -16,16 +16,6 @@ class UserLogin(BaseModel):
     username: str
     password: str
 
-# Token Schema
-class Token(BaseModel):
-    access_token: str
-    token_type: str = "bearer"
-
-# Token Data Schema
-class TokenData(BaseModel):
-    username: Optional[str] = None
-    user_id: Optional[int] = None
-
 # User Response Schema
 class UserResponse(UserBase):
     id: int
@@ -44,4 +34,15 @@ class UserWithReadingList(UserResponse):
 
 # For resolving forward references
 from .reading_list import ReadingListItemResponse
-UserWithReadingList.update_forward_refs() 
+UserWithReadingList.update_forward_refs()
+
+# Token Schema
+class Token(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    user: UserResponse
+
+# Token Data Schema
+class TokenData(BaseModel):
+    username: Optional[str] = None
+    user_id: Optional[int] = None 

@@ -13,10 +13,10 @@ from ...core.config import settings
 router = APIRouter()
 logger = logging.getLogger(__name__)
 
-@router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+@router.post("/register", response_model=Token, status_code=status.HTTP_201_CREATED)
 def register_user(user_data: UserCreate, db: Session = Depends(get_db), request: Request = None):
     """
-    Register a new user
+    Register a new user and return JWT token
     """
     if request:
         logger.info(f"Registration request from {request.client.host} with headers: {request.headers}")
@@ -53,9 +53,20 @@ def register_user(user_data: UserCreate, db: Session = Depends(get_db), request:
     db.commit()
     db.refresh(db_user)
     
+    # Generate access token
+    access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={"sub": user_data.username, "id": db_user.id},
+        expires_delta=access_token_expires
+    )
+    
     logger.info(f"User {user_data.username} registered successfully")
     
-    return db_user
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "user": db_user
+    }
 
 @router.post("/login", response_model=Token)
 def login_user(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
@@ -87,4 +98,8 @@ def login_user(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = D
         expires_delta=access_token_expires
     )
     
-    return {"access_token": access_token, "token_type": "bearer"} 
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "user": user
+    } 

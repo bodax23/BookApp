@@ -5,11 +5,11 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from passlib.context import CryptContext
-from sqlmodel import Session, select
+from sqlalchemy.orm import Session
 
 from app.core.config import settings
 from app.db.database import get_db
-from app.models.user import User
+from app.models.models import User
 from app.schemas.user import TokenData
 
 
@@ -53,7 +53,7 @@ def verify_token(token: str, credentials_exception):
         username: str = payload.get("sub")
         user_id: int = payload.get("id")
         
-        if username is None:
+        if username is None or user_id is None:
             raise credentials_exception
             
         token_data = TokenData(username=username, user_id=user_id)
@@ -74,7 +74,7 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
     )
     
     token_data = verify_token(token, credentials_exception)
-    user = db.exec(select(User).where(User.id == int(token_data.user_id))).first()
+    user = db.query(User).filter(User.id == token_data.user_id).first()
     
     if user is None:
         raise credentials_exception

@@ -1,5 +1,14 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, Link } from 'react-router-dom';
+import { 
+  BrowserRouter as Router, 
+  Routes, 
+  Route, 
+  Navigate, 
+  Link,
+  createBrowserRouter,
+  RouterProvider,
+  createRoutesFromElements
+} from 'react-router-dom';
 import { ChakraProvider, Box, Container, Flex, Heading, Button, Spacer } from '@chakra-ui/react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -58,51 +67,59 @@ const Navigation: React.FC = () => {
   );
 };
 
+// Create router with future flags
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route element={<Navigation />}>
+      {/* Public routes */}
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      
+      {/* Protected routes */}
+      <Route 
+        path="/" 
+        element={
+          <ProtectedRoute>
+            <BookSearch />
+          </ProtectedRoute>
+        } 
+      />
+      
+      <Route 
+        path="/books/:bookId" 
+        element={
+          <ProtectedRoute>
+            <BookDetail />
+          </ProtectedRoute>
+        } 
+      />
+      
+      <Route 
+        path="/reading-list" 
+        element={
+          <ProtectedRoute>
+            <ReadingList />
+          </ProtectedRoute>
+        } 
+      />
+      
+      {/* Fallback route */}
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Route>
+  ),
+  {
+    future: {
+      v7_relativeSplatPath: true
+    }
+  }
+);
+
 // Main App component
 const AppContent: React.FC = () => {
   return (
-    <Router>
-      <Navigation />
-      
-      <Container maxW="container.xl" pb={8}>
-        <Routes>
-          {/* Public routes */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          
-          {/* Protected routes */}
-          <Route 
-            path="/" 
-            element={
-              <ProtectedRoute>
-                <BookSearch />
-              </ProtectedRoute>
-            } 
-          />
-          
-          <Route 
-            path="/books/:bookId" 
-            element={
-              <ProtectedRoute>
-                <BookDetail />
-              </ProtectedRoute>
-            } 
-          />
-          
-          <Route 
-            path="/reading-list" 
-            element={
-              <ProtectedRoute>
-                <ReadingList />
-              </ProtectedRoute>
-            } 
-          />
-          
-          {/* Fallback route */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Container>
-    </Router>
+    <Container maxW="container.xl" pb={8}>
+      <RouterProvider router={router} />
+    </Container>
   );
 };
 
