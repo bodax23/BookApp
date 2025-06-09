@@ -1,0 +1,15 @@
+/* Tailwind base */
+*, ::before, ::after {
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: #e5e7eb;
+}
+
+/* Tailwind components and utilities will be injected here by the build process */
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+} 

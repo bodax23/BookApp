@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        button { padding: 8px 16px; margin-right: 10px; }
+        #results { 
+            margin-top: 20px; 
+            border: 1px solid #ccc; 
+            padding: 15px; 
+            background-color: #f5f5f5;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>API Test</h1>
+    
+    <h2>Book Search</h2>
+    <div>
+        <input type="text" id="searchQuery" placeholder="Search term" value="harry">
+        <select id="searchType">
+            <option value="title">Title</option>
+            <option value="author">Author</option>
+            <option value="isbn">ISBN</option>
+        </select>
+        <button onclick="searchBooks()">Search</button>
+    </div>
+    
+    <h2>Reading List</h2>
+    <div>
+        <button onclick="getReadingList()">Get Reading List</button>
+        <button onclick="addToReadingList()">Add Sample Book</button>
+    </div>
+    
+    <h2>Results</h2>
+    <pre id="results">Results will appear here...</pre>
+    
+    <script>
+        // Function to search books
+        async function searchBooks() {
+            const query = document.getElementById('searchQuery').value;
+            const type = document.getElementById('searchType').value;
+            
+            try {
+                const response = await fetch(`/api/books/search?query=${encodeURIComponent(query)}&type=${type}`);
+                const data = await response.json();
+                
+                document.getElementById('results').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('results').textContent = `Error: ${error.message}`;
+            }
+        }
+        
+        // Function to get reading list
+        async function getReadingList() {
+            try {
+                const response = await fetch('/api/reading-list');
+                const data = await response.json();
+                
+                document.getElementById('results').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('results').textContent = `Error: ${error.message}`;
+            }
+        }
+        
+        // Function to add a sample book to reading list
+        async function addToReadingList() {
+            try {
+                const sampleBook = {
+                    book_id: "OL12345W",
+                    title: "Sample Book",
+                    author: "Test Author",
+                    cover_id: 12345,
+                    year: 2023
+                };
+                
+                const response = await fetch('/api/reading-list', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(sampleBook)
+                });
+                
+                const data = await response.json();
+                document.getElementById('results').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('results').textContent = `Error: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html> 
